@@ -28,6 +28,10 @@
         "./src/*"
       ]
     },
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "src"
