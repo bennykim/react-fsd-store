@@ -1,7 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
 import { Providers } from "@/app/providers";
-import { Home } from "@/pages/home/ui/Home";
+import { HomePage } from "@/pages/home/ui/HomePage";
+import { ProductPage } from "@/pages/home/ui/ProductPage";
 import { Footer } from "@/widgets/footer/ui/Footer";
 import { Header } from "@/widgets/header/ui/Header";
 
@@ -12,7 +13,8 @@ function App() {
         <Header />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
           </Routes>
         </main>
         <Footer />

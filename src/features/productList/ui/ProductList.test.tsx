@@ -7,14 +7,19 @@ import {
   useProducts,
   UseProductsResult,
 } from "@/features/productList/model/useProducts";
+import { ProductCard } from "@/widgets/productCard/ProductCard";
 
 import { ProductList } from "./ProductList";
 
 vi.mock("@/features/productList/model/useProducts");
 vi.mock("@/features/productList/model/store");
+vi.mock("@/widgets/productCard/ProductCard", () => ({
+  ProductCard: vi.fn(() => null),
+}));
 
 const mockUseProducts = vi.mocked(useProducts);
 const mockUseProductListStore = vi.mocked(useProductListStore);
+const MockProductCard = vi.mocked(ProductCard);
 
 const mockProducts: Product[] = [
   {
@@ -71,10 +76,16 @@ describe("ProductList", () => {
     expect(screen.getByText("No products found.")).toBeInTheDocument();
   });
 
-  it("renders products", () => {
+  it("renders ProductCard components for each product", () => {
     setupTest({ data: mockProducts }, mockProducts);
-    mockProducts.forEach((product) => {
-      expect(screen.getByText(product.name)).toBeInTheDocument();
+
+    expect(MockProductCard).toHaveBeenCalledTimes(mockProducts.length);
+    mockProducts.forEach((product, index) => {
+      expect(MockProductCard).toHaveBeenNthCalledWith(
+        index + 1,
+        { product },
+        {}
+      );
     });
   });
 });

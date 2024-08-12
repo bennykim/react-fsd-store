@@ -1,5 +1,6 @@
 import { useProductListStore } from "@/features/productList/model/store";
 import { useProducts } from "@/features/productList/model/useProducts";
+import { ProductCard } from "@/widgets/productCard/ProductCard";
 
 const ProductList = () => {
   const { isLoading, error } = useProducts();
@@ -21,15 +22,12 @@ const ProductList = () => {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>{product.name}</li>
-        ))}
-      </ul>
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </div>
   );
 };
-
 ProductList.displayName = "ProductList";
 
 export { ProductList };
