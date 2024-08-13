@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import { Product } from "@/entities/product/model";
+import { useCartStore } from "@/features/cart/model/store";
 import { useProductStore } from "@/features/productDetails/model/store";
 import { useProductDetails } from "@/features/productDetails/model/useProductDetails";
 import { Button } from "@/shared/ui/button";
@@ -11,6 +12,7 @@ const ProductDetails = () => {
 
   const { isLoading, error } = useProductDetails(id);
   const { product } = useProductStore();
+  const addToCart = useCartStore((state) => state.addItem);
 
   if (isLoading) {
     return <div className="text-center">Loading...</div>;
@@ -42,7 +44,7 @@ const ProductDetails = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button onClick={() => null} className="w-full">
+          <Button onClick={() => addToCart(product)} className="w-full">
             Add to Cart
           </Button>
         </CardFooter>
