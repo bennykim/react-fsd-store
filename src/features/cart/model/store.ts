@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 
 import { Product } from "@/entities/product/model";
 
@@ -6,15 +6,17 @@ interface CartItem extends Product {
   quantity: number;
 }
 
-interface CartStore {
+export interface CartStore {
   items: CartItem[];
   addItem: (product: Product) => void;
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
+  total: number;
+  calculateTotal: () => void;
 }
 
-export const useCartStore = create<CartStore>((set) => ({
+export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
   addItem: (product) =>
     set((state) => {
@@ -41,4 +43,13 @@ export const useCartStore = create<CartStore>((set) => ({
       ),
     })),
   clearCart: () => set({ items: [] }),
+  total: 0,
+  calculateTotal: () => {
+    const state = get();
+    const newTotal = state.items.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    set({ total: newTotal });
+  },
 }));
